@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const contentPanels = document.querySelectorAll('.content-panel');
     const closeButton = document.querySelector('.close-button');
 
+    // Guard flags to prevent rapid-click race conditions
+    let isTransitioning = false;
+    let isChatToggleLocked = false;
+
     const tlIntro = gsap.timeline({ paused: true });
     tlIntro.from(initialView.querySelectorAll('.logo, .content > *'), { 
         duration: 1.2, y: 30, opacity: 0, stagger: 0.1, ease: 'power3.out' 
@@ -20,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     tlIntro.play();
 
     function showActiveView() {
+        if (isTransitioning) return;
+        isTransitioning = true;
         const tl = gsap.timeline();
         tl.to(initialView, { duration: 1, opacity: 0, ease: 'power3.inOut' })
           .set(initialView, { visibility: 'hidden' })
@@ -30,26 +36,39 @@ document.addEventListener('DOMContentLoaded', () => {
           .call(() => {
               document.querySelector('.nav-link[data-content="about"]').classList.add('active');
               document.getElementById('about-content').classList.add('is-visible');
-          });
+          })
+          .call(() => { isTransitioning = false; });
     }
     
     function showInitialView() {
+        if (isTransitioning) return;
+        isTransitioning = true;
         const tl = gsap.timeline();
         tl.to(activeView, { duration: 1, opacity: 0, ease: 'power3.inOut' })
           .set(activeView, { autoAlpha: 0 }) 
           .set(initialView, { visibility: 'visible', opacity: 0 })
           .to(initialView, { duration: 1, opacity: 1, ease: 'power3.inOut'})
-          .call(() => tlIntro.restart()); 
+          .call(() => tlIntro.restart())
+          .call(() => { isTransitioning = false; }); 
 
         contentPanels.forEach(panel => panel.classList.remove('is-visible'));
         navLinks.forEach(l => l.classList.remove('active'));
     }
 
-    enterCTA.addEventListener('click', (e) => { e.preventDefault(); showActiveView(); });
-    closeButton.addEventListener('click', () => { showInitialView(); });
+    enterCTA.addEventListener('click', (e) => { 
+        e.preventDefault(); 
+        if (isTransitioning) return; 
+        showActiveView(); 
+    });
+    closeButton.addEventListener('click', () => { 
+        if (isTransitioning) return; 
+        showInitialView(); 
+    });
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
+            if (isTransitioning) return;
+            if (link.classList.contains('active')) return;
             const targetId = link.dataset.content;
             contentPanels.forEach(panel => { panel.classList.toggle('is-visible', panel.id === `${targetId}-content`); });
             navLinks.forEach(l => l.classList.remove('active'));
@@ -63,7 +82,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatInput = document.getElementById('chat-input');
     const chatSend = document.getElementById('chat-send');
     const chatLog = document.querySelector('.chat-log');
-    chatbotIcon.addEventListener('click', () => { chatbotIcon.classList.toggle('open'); chatbotModal.classList.toggle('open'); });
+    chatbotIcon.addEventListener('click', () => { 
+        if (isChatToggleLocked) return; 
+        isChatToggleLocked = true; 
+        chatbotIcon.classList.toggle('open'); 
+        chatbotModal.classList.toggle('open'); 
+        setTimeout(() => { isChatToggleLocked = false; }, 400); 
+    });
     const handleSendMessage = () => {
         const messageText = chatInput.value.trim(); if (messageText === "") return;
         const userMessage = document.createElement('div'); userMessage.className = 'chat-message user'; userMessage.textContent = messageText; chatLog.appendChild(userMessage);
