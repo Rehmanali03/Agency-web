@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZaroraX | Digital Experiences</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="liquid-canvas"></div>
+
+    <div class="ui-overlay">
+        <!-- STATE 1: Initial (Hero) View -->
+        <div class="initial-view">
+            <header class="site-header">
+                <div class="logo">ZaroraX</div>
+            </header>
+            <main class="content">
+                <h1>We shape the intangible.</h1>
+                <p>A design studio crafting digital experiences that feel as luminous and alive as the light that reveals them.</p>
+                <a href="#" class="cta" id="enter-cta">Explore Our World</a>
+            </main>
+        </div>
+
+        <!-- STATE 2: Active (Gallery) View -->
+        <div class="active-view">
+            <nav class="main-nav">
+                <a href="#" class="nav-link" data-content="about">About</a>
+                <a href="#" class="nav-link" data-content="services">Services</a>
+                <a href="#" class="nav-link" data-content="work">Work</a>
+                <a href="#" class="nav-link" data-content="contact">Contact</a>
+            </nav>
+            <div class="close-button">
+                <span></span>
+                <span></span>
+            </div>
+            
+            <div class="content-panels-container">
+                <div id="about-content" class="content-panel">
+                    <h2 class="panel-title">The intersection of art and algorithm.</h2>
+                    <p class="panel-subtitle">We are a passionate collective of designers, developers, and thinkers dedicated to creating work that not only looks stunning but also achieves real-world results.</p>
+                     <div class="stats-grid">
+                        <div class="stat-item"><h3>10+</h3><p>Years of Experience</p></div>
+                        <div class="stat-item"><h3>150+</h3><p>Projects Delivered</p></div>
+                        <div class="stat-item"><h3>42</h3><p>Happy Clients</p></div>
+                    </div>
+                </div>
+                <div id="services-content" class="content-panel">
+                    <h2 class="panel-title">Our Capabilities</h2>
+                    <div class="services-grid">
+                        <div class="service-card"><div class="service-icon"><i class="fas fa-palette"></i></div><h3>UI/UX Design</h3><p>Crafting intuitive, user-centric interfaces.</p></div>
+                        <div class="service-card"><div class="service-icon"><i class="fas fa-pen-nib"></i></div><h3>Branding & Strategy</h3><p>Building compelling brand identities that resonate.</p></div>
+                        <div class="service-card"><div class="service-icon"><i class="fas fa-code"></i></div><h3>Web Development</h3><p>Bringing designs to life with clean, powerful code.</p></div>
+                        <div class="service-card"><div class="service-icon"><i class="fas fa-mobile-alt"></i></div><h3>App Development</h3><p>Building elegant mobile apps for iOS & Android.</p></div>
+                    </div>
+                </div>
+                <div id="work-content" class="content-panel">
+                    <h2 class="panel-title">Case Studies in Light</h2>
+                    <div class="portfolio-grid">
+                         <a href="#" class="portfolio-item"><img src="https://picsum.photos/id/1060/800/600" alt="Project Finvest"><div class="portfolio-overlay"><h3>Project Finvest</h3><p>Brand Identity & Web App</p><span class="view-study">View Case Study &rarr;</span></div></a>
+                        <a href="#" class="portfolio-item"><img src="https://picsum.photos/id/1025/800/600" alt="Artisan Roast"><div class="portfolio-overlay"><h3>Artisan Roast</h3><p>E-Commerce Experience</p><span class="view-study">View Case Study &rarr;</span></div></a>
+                        <a href="#" class="portfolio-item"><img src="https://picsum.photos/id/1074/800/600" alt="Project Nomad"><div class="portfolio-overlay"><h3>Project Nomad</h3><p>Marketing Website & UI/UX</p><span class="view-study">View Case Study &rarr;</span></div></a>
+                    </div>
+                </div>
+                <div id="contact-content" class="content-panel">
+                    <h2 class="panel-title">Let's create a resonance.</h2>
+                     <p class="panel-subtitle">Have a project that requires a touch of the impossible? We are ready to listen. Reach out directly or use the form below.</p>
+                     <div class="contact-details-grid">
+                         <div class="contact-item"><i class="fas fa-envelope"></i><h4>Email Us</h4><p>begin@zarorax.digital</p></div>
+                         <div class="contact-item"><i class="fas fa-phone"></i><h4>Call Us</h4><p>(555) 123-4567</p></div>
+                         <div class="contact-item"><i class="fas fa-map-marker-alt"></i><h4>Find Us</h4><p>123 ZaroraX Lane, Venice, CA</p></div>
+                     </div>
+                     <form class="contact-form">
+                         <div class="form-group"><input type="text" id="name" placeholder="Your Name" required></div>
+                         <div class="form-group"><input type="email" id="email" placeholder="Your Email" required></div>
+                         <div class="form-group full-width"><textarea id="message" placeholder="Tell us about your vision..." rows="4" required></textarea></div>
+                         <div class="form-group full-width"><button type="submit" class="cta">Send Message</button></div>
+                     </form>
+                </div>
+            </div>
+        </div>
+        <div id="chatbot-icon" class="chatbot-icon"><i class="fas fa-comment-dots"></i><i class="fas fa-times"></i></div>
+        <div id="chatbot-modal" class="chatbot-modal">
+            <div class="modal-header"><h3>ZaroraX Assistant</h3></div>
+            <div class="modal-body"><div class="chat-log"><div class="chat-message bot">Hello! How can we illuminate your vision today?</div></div></div>
+            <div class="modal-footer"><input type="text" id="chat-input" placeholder="Ask a question..."><button id="chat-send"><i class="fas fa-paper-plane"></i></button></div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script id="vertexShader" type="x-shader/x-vertex"> void main() { gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); } </script>
+    <script id="fragmentShader" type="x-shader/x-fragment">
+        uniform vec2 u_resolution; uniform vec2 u_mouse; uniform float u_time;
+        float random(vec2 st) { return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123); }
+        float noise(vec2 st) { vec2 i = floor(st); vec2 f = fract(st); float a = random(i); float b = random(i + vec2(1.0, 0.0)); float c = random(i + vec2(0.0, 1.0)); float d = random(i + vec2(1.0, 1.0)); vec2 u = f * f * (3.0 - 2.0 * f); return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.y * u.x; }
+        void main() {
+            vec2 st = gl_FragCoord.xy / u_resolution.xy; st.x *= u_resolution.x / u_resolution.y;
+            vec2 mouse_normalized = u_mouse / u_resolution; float dist = distance(st, mouse_normalized);
+            vec2 flow_st = st * 2.5 - u_time * 0.05; float pattern = noise(flow_st + noise(flow_st * 0.3));
+            float warp = 1.0 - pow(dist, 0.15); pattern *= warp * 2.0;
+
+            vec3 color_void = vec3(0.04, 0.015, 0.06);
+            vec3 color_blue = vec3(0.0, 0.56, 1.0);
+            vec3 color_fuchsia = vec3(1.0, 0.0, 0.5);
+
+            vec3 final_color = mix(color_void, color_blue, smoothstep(0.1, 0.55, pattern));
+            final_color = mix(final_color, color_fuchsia, smoothstep(0.45, 0.8, pattern));
+            float vignette = 1.0 - length(st - 0.5) * 0.9; final_color *= vignette;
+            gl_FragColor = vec4(final_color, 1.0);
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
