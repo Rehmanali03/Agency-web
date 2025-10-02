@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelectorAll('.nav-link');
     const contentPanels = document.querySelectorAll('.content-panel');
     const closeButton = document.querySelector('.close-button');
+    let isTransitioning = false;
 
     const tlIntro = gsap.timeline({ paused: true });
     tlIntro.from(initialView.querySelectorAll('.logo, .content > *'), { 
@@ -20,7 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
     tlIntro.play();
 
     function showActiveView() {
-        const tl = gsap.timeline();
+        if (isTransitioning) return;
+        isTransitioning = true;
+        gsap.killTweensOf([initialView, activeView]);
+        const tl = gsap.timeline({ defaults: { overwrite: 'auto' } });
         tl.to(initialView, { duration: 1, opacity: 0, ease: 'power3.inOut' })
           .set(initialView, { visibility: 'hidden' })
           .set(activeView, { autoAlpha: 1 }) 
@@ -30,16 +34,21 @@ document.addEventListener('DOMContentLoaded', () => {
           .call(() => {
               document.querySelector('.nav-link[data-content="about"]').classList.add('active');
               document.getElementById('about-content').classList.add('is-visible');
-          });
+          })
+          .call(() => { isTransitioning = false; });
     }
     
     function showInitialView() {
-        const tl = gsap.timeline();
+        if (isTransitioning) return;
+        isTransitioning = true;
+        gsap.killTweensOf([initialView, activeView]);
+        const tl = gsap.timeline({ defaults: { overwrite: 'auto' } });
         tl.to(activeView, { duration: 1, opacity: 0, ease: 'power3.inOut' })
           .set(activeView, { autoAlpha: 0 }) 
           .set(initialView, { visibility: 'visible', opacity: 0 })
           .to(initialView, { duration: 1, opacity: 1, ease: 'power3.inOut'})
-          .call(() => tlIntro.restart()); 
+          .call(() => { tlIntro.restart(); }) 
+          .call(() => { isTransitioning = false; });
 
         contentPanels.forEach(panel => panel.classList.remove('is-visible'));
         navLinks.forEach(l => l.classList.remove('active'));
@@ -50,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
+            if (isTransitioning) return;
             const targetId = link.dataset.content;
             contentPanels.forEach(panel => { panel.classList.toggle('is-visible', panel.id === `${targetId}-content`); });
             navLinks.forEach(l => l.classList.remove('active'));
