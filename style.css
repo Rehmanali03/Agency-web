@@ -33,10 +33,10 @@ html, body {
 .cta:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(var(--accent-rgb), 0.45); }
 .active-view { position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 0; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; }
 
-.main-nav { position: absolute; top: 4rem; left: 50%; transform: translateX(-50%); display: flex; gap: 2rem; pointer-events: all; background: rgba(var(--bg-rgb), 0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 0.8rem 2rem; border-radius: 50px; border: 1px solid rgba(var(--accent-rgb), 0.2); }
+.main-nav { position: absolute; top: 4rem; left: 50%; transform: translateX(-50%); display: flex; gap: 2rem; pointer-events: all; background: rgba(var(--bg-rgb), 0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 0.8rem 2rem; border-radius: 50px; border: 1px solid rgba(var(--accent-rgb), 0.2); z-index: 20; }
 .nav-link { padding: 0.5rem 1rem; font-family: var(--font-body); font-weight: 500; font-size: 1.1rem; color: var(--hyper-white); text-decoration: none; transition: color 0.3s ease; text-shadow: none; }
 .nav-link:hover, .nav-link.active { color: var(--fuchsia); }
-.close-button { position: absolute; top: 4rem; right: 6rem; width: 40px; height: 40px; cursor: pointer; pointer-events: all; }
+.close-button { position: absolute; top: 4rem; right: 6rem; width: 40px; height: 40px; cursor: pointer; pointer-events: all; z-index: 20; }
 .close-button span { position: absolute; left: 0; top: 50%; width: 100%; height: 2px; background: var(--hyper-white); transition: transform 0.3s ease; }
 .close-button:hover span:first-child { transform: rotate(135deg); }
 .close-button:hover span:last-child { transform: rotate(-135deg); }
