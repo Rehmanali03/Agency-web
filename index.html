@@ -104,12 +104,13 @@
             vec2 flow_st = st * 2.5 - u_time * 0.05; float pattern = noise(flow_st + noise(flow_st * 0.3));
             float warp = 1.0 - pow(dist, 0.15); pattern *= warp * 2.0;
 
-            vec3 color_void = vec3(0.04, 0.015, 0.06);
-            vec3 color_blue = vec3(0.0, 0.56, 1.0);
-            vec3 color_fuchsia = vec3(1.0, 0.0, 0.5);
+            // Updated to align with CSS palette
+            vec3 color_void = vec3(0.043, 0.059, 0.098);     // ~ #0B0F19
+            vec3 color_blue = vec3(0.133, 0.827, 0.933);     // ~ #22D3EE
+            vec3 color_fuchsia = vec3(0.659, 0.333, 0.969);  // ~ #A855F7
 
-            vec3 final_color = mix(color_void, color_blue, smoothstep(0.1, 0.55, pattern));
-            final_color = mix(final_color, color_fuchsia, smoothstep(0.45, 0.8, pattern));
+            vec3 final_color = mix(color_void, color_blue, smoothstep(0.12, 0.6, pattern));
+            final_color = mix(final_color, color_fuchsia, smoothstep(0.45, 0.85, pattern));
             float vignette = 1.0 - length(st - 0.5) * 0.9; final_color *= vignette;
             gl_FragColor = vec4(final_color, 1.0);
         }
