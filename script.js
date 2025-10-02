@@ -17,8 +17,21 @@ document.addEventListener('DOMContentLoaded', () => {
     let isChatToggleLocked = false;
 
     const tlIntro = gsap.timeline({ paused: true });
-    tlIntro.from(initialView.querySelectorAll('.logo, .content > *'), { 
-        duration: 1.2, y: 30, opacity: 0, stagger: 0.1, ease: 'power3.out' 
+    tlIntro.from(initialView.querySelectorAll('.logo, .content > *'), {
+        duration: 1.2,
+        y: 30,
+        opacity: 0,
+        stagger: 0.1,
+        ease: 'power3.out',
+        onStart: () => {
+            // Ensure nav and panels can receive clicks during/after animations
+            const uiOverlay = document.querySelector('.ui-overlay');
+            if (uiOverlay) uiOverlay.style.pointerEvents = 'none';
+        },
+        onComplete: () => {
+            const uiOverlay = document.querySelector('.ui-overlay');
+            if (uiOverlay) uiOverlay.style.pointerEvents = 'none';
+        }
     });
     
     tlIntro.play();
@@ -29,7 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const tl = gsap.timeline();
         tl.to(initialView, { duration: 1, opacity: 0, ease: 'power3.inOut' })
           .set(initialView, { visibility: 'hidden' })
-          .set(activeView, { autoAlpha: 1 }) 
+          .set(activeView, { autoAlpha: 1 })
+          .set('.ui-overlay', { pointerEvents: 'none' })
           .from(activeView.querySelectorAll('.main-nav, .close-button'), {
               duration: 1, y: -30, opacity: 0, stagger: 0.1, ease: 'power3.out'
           }, "-=0.5")
@@ -37,19 +51,22 @@ document.addEventListener('DOMContentLoaded', () => {
               document.querySelector('.nav-link[data-content="about"]').classList.add('active');
               document.getElementById('about-content').classList.add('is-visible');
           })
-          .call(() => { isTransitioning = false; });
+          .call(() => { isTransitioning = false; })
+          .set('.ui-overlay', { clearProps: 'pointerEvents' });
     }
     
     function showInitialView() {
         if (isTransitioning) return;
         isTransitioning = true;
         const tl = gsap.timeline();
-        tl.to(activeView, { duration: 1, opacity: 0, ease: 'power3.inOut' })
+        tl.set('.ui-overlay', { pointerEvents: 'none' })
+          .to(activeView, { duration: 1, opacity: 0, ease: 'power3.inOut' })
           .set(activeView, { autoAlpha: 0 }) 
           .set(initialView, { visibility: 'visible', opacity: 0 })
           .to(initialView, { duration: 1, opacity: 1, ease: 'power3.inOut'})
           .call(() => tlIntro.restart())
-          .call(() => { isTransitioning = false; }); 
+          .call(() => { isTransitioning = false; })
+          .set('.ui-overlay', { clearProps: 'pointerEvents' });
 
         contentPanels.forEach(panel => panel.classList.remove('is-visible'));
         navLinks.forEach(l => l.classList.remove('active'));
